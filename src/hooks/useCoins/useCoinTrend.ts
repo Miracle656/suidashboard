@@ -140,8 +140,9 @@ const saveToCache = (data: TrendingCoin[]): void => {
 
 export const useCoinTrend = (options?: {
   autoFetch?: boolean;
+  pageSize?: number;
 }): UseCoinTrendResult => {
-  const { autoFetch = false } = options || {};
+  const { autoFetch = false, pageSize = 50 } = options || {};
   const [trendingCoins, setTrendingCoins] = useState<TrendingCoin[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -162,12 +163,12 @@ export const useCoinTrend = (options?: {
       // Try to fetch from API, fallback to mock data if it fails
       try {
         const response = await fetch(
-          "/api/external-api/insidex/coins/trending",
+          `/api/external-api/insidex/coins/trending?limit=${pageSize}`,
           {
             headers: {
               "x-api-key": import.meta.env.VITE_COIN_API_KEY || "",
             },
-          },
+          }
         );
 
         if (!response.ok) {
@@ -180,6 +181,29 @@ export const useCoinTrend = (options?: {
         saveToCache(data);
       } catch (apiError) {
         console.warn("API unavailable, using mock data:", apiError);
+        // Generate more mock data for better demonstration
+        const mockData = Array.from({ length: pageSize }, (_, i) => ({
+          coin: `mock-coin-${i}`,
+          coinMetadata: {
+            _id: `mock-${i}`,
+            coinType: `0x${i}::mock::MOCK${i}`,
+            decimals: 9,
+            description: `Mock coin ${i} for demonstration`,
+            iconUrl: `https://via.placeholder.com/32x32?text=M${i}`,
+            name: `Mock Coin ${i}`,
+            symbol: `MOCK${i}`,
+          },
+          price: Math.random() * 100,
+          marketCap: Math.random() * 1000000000,
+          holdersCount: Math.floor(Math.random() * 10000),
+          totalLiquidityUsd: Math.random() * 1000000,
+          percentagePriceChange1h: (Math.random() - 0.5) * 20,
+          percentagePriceChange1d: (Math.random() - 0.5) * 50,
+          buyVolumeStats1d: { volumeUsd: Math.random() * 100000 },
+          sellVolumeStats1d: { volumeUsd: Math.random() * 100000 },
+          uniqueTraders1d: Math.floor(Math.random() * 1000),
+        }));
+        setTrendingCoins(mockData);
       }
     } catch (err) {
       setError(

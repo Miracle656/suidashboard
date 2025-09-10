@@ -6,7 +6,7 @@ const pageCache = new Map<string, any>();
 let cachedCoinCount: number | null = null;
 let cachedTotalPages: number | null = null;
 
-export function useGetCoins(page: number = 0, size: number = 20) {
+export function useGetCoins(page: number = 0, size: number = 50) {
     const [coins, setCoins] = useState<any[]>([]);
     const [coinCount, setCoinCount] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);

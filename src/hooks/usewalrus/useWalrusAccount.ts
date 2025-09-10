@@ -22,7 +22,7 @@ interface WalrusAccountResponse {
 
 type AccountCache = Record<number, any>;
 
-export function useWalrusAccount(page: number = 0) {
+export function useWalrusAccount(page: number = 0, size: number = 50) {
   const [accountData, setAccountData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -35,8 +35,9 @@ export function useWalrusAccount(page: number = 0) {
     let cancelled = false;
 
     const fetchAccounts = async () => {
-      if (cache.current[page]) {
-        setAccountData(cache.current[page]);
+      const cacheKey = `${page}-${size}`;
+      if (cache.current[cacheKey]) {
+        setAccountData(cache.current[cacheKey]);
         return;
       }
 
@@ -50,12 +51,12 @@ export function useWalrusAccount(page: number = 0) {
 
       try {
         const elapsed = Date.now() - lastRequestTime.current;
-        if (elapsed < 15000) await new Promise(r => setTimeout(r, 15000 - elapsed));
+        if (elapsed < 1000) await new Promise(r => setTimeout(r, 1000 - elapsed));
 
         if (cancelled) return;
 
         const res = await fetch(
-          `https://api.blockberry.one/walrus-mainnet/v1/accounts?page=${page}&size=20&orderBy=DESC&sortBy=BALANCE`,
+          `https://api.blockberry.one/walrus-mainnet/v1/accounts?page=${page}&size=${size}&orderBy=DESC&sortBy=BALANCE`,
           { headers: { accept: "*/*", "x-api-key": apiKey } }
         );
 
@@ -64,7 +65,7 @@ export function useWalrusAccount(page: number = 0) {
         if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
 
         const data = await res.json();
-        cache.current[page] = data;
+        cache.current[cacheKey] = data;
         if (!cancelled) setAccountData(data);
       } catch (err: any) {
         if (!cancelled) setError(err);
@@ -76,7 +77,7 @@ export function useWalrusAccount(page: number = 0) {
     fetchAccounts();
 
     return () => { cancelled = true; };
-  }, [page, apiKey]);
+  }, [page, size, apiKey]);
 
   return { accountData, loading, error };
 }

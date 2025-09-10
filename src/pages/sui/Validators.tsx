@@ -1,17 +1,27 @@
 import React, { useEffect } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout } from "../../components/layout/AppLayout";
 import { useSuiValidators } from "../../hooks/useSui/useSuiValidators";
-import {
-  Table,
-  Text,
-  Avatar,
-  Flex,
-  Box,
-  Spinner,
-  Badge,
-  Link,
-} from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DataTable } from "@/components/ui/data-table";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { MetricCard } from "@/components/charts/MetricCard";
+import { ChartContainer } from "@/components/charts/ChartContainer";
+import { ColumnDef } from "@tanstack/react-table";
+import { ExternalLink, Shield, TrendingUp, Users } from "lucide-react";
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
+} from "recharts";
 
 function SuiValidators() {
   const { validators, validatorsApy, loading, fetchValidators } =
@@ -21,207 +31,213 @@ function SuiValidators() {
     fetchValidators();
   }, []);
 
+  // Chart data
+  const chartData = validators?.slice(0, 10).map((validator) => ({
+    name: validator.validatorName || "Unknown",
+    stake: validator.stakeAmount || 0,
+    commission: validator.commissionRate || 0,
+    apy: validator.apy || 0,
+  })) || [];
+
+  const COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))', 'hsl(var(--chart-5))'];
+
+  // Table columns
+  const columns: ColumnDef<any>[] = [
+    {
+      accessorKey: "validatorName",
+      header: "Validator",
+      cell: ({ row }) => (
+        <div className="flex items-center space-x-3">
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={row.original.validatorImg} />
+            <AvatarFallback>{row.original.validatorName?.charAt(0) || "V"}</AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="font-medium">{row.original.validatorName || "Unknown Validator"}</div>
+            <div className="text-sm text-muted-foreground font-mono">
+              {row.original.validatorAddress?.slice(0, 8)}...{row.original.validatorAddress?.slice(-6)}
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "apy",
+      header: "APY",
+      cell: ({ row }) => {
+        const apy = row.getValue("apy") as number;
+        return (
+          <Badge variant="outline" className="text-green-600">
+            {apy ? `${apy.toFixed(2)}%` : "N/A"}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "commissionRate",
+      header: "Commission",
+      cell: ({ row }) => (
+        <span>{row.getValue("commissionRate") || 0}%</span>
+      ),
+    },
+    {
+      accessorKey: "stakeAmount",
+      header: "Stake Amount",
+      cell: ({ row }) => {
+        const stake = row.getValue("stakeAmount") as number;
+        return <span className="font-mono">{stake ? `${stake.toLocaleString()} SUI` : "N/A"}</span>;
+      },
+    },
+    {
+      accessorKey: "isVerified",
+      header: "Status",
+      cell: ({ row }) => {
+        const verified = row.getValue("isVerified") as boolean;
+        return (
+          <Badge variant={verified ? "default" : "secondary"}>
+            {verified ? "Verified" : "Unverified"}
+          </Badge>
+        );
+      },
+    },
+    {
+      id: "social",
+      header: "Links",
+      cell: ({ row }) => (
+        <div className="flex space-x-1">
+          {row.original.socialWebsite && (
+            <a href={row.original.socialWebsite} target="_blank" rel="noopener noreferrer">
+              <Badge variant="outline" className="text-xs">
+                Website
+              </Badge>
+            </a>
+          )}
+          {row.original.socialTwitter && (
+            <a href={row.original.socialTwitter} target="_blank" rel="noopener noreferrer">
+              <Badge variant="outline" className="text-xs">
+                Twitter
+              </Badge>
+            </a>
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  // Calculate metrics
+  const totalStake = validators?.reduce((sum, v) => sum + (v.stakeAmount || 0), 0) || 0;
+  const verifiedCount = validators?.filter((v) => v.isVerified).length || 0;
+
   if (loading) {
     return (
-      <Layout>
-        <main className="p-6 space-y-8">
-          <CardComponent>
-            <h2 className="text-2xl font-semibold text-[#292929]">
-              Sui - Validators
-            </h2>
-            <p className="text-[#292929] mt-1">
-              High-level network validators and health metrics.
-            </p>
-          </CardComponent>
-          <div className="flex justify-center items-center py-12">
-            <Spinner size="3" />
-          </div>
-        </main>
-      </Layout>
+      <AppLayout>
+        <LoadingSpinner size="lg" />
+      </AppLayout>
     );
   }
 
   return (
-    <Layout>
-      <main className="p-6 space-y-8">
-        <CardComponent>
-          <h2 className="text-2xl font-semibold text-[#292929]">
-            Sui - Validators
-          </h2>
-          <p className="text-[#292929] mt-1">
-            High-level network performance and health metrics.
+    <AppLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Sui Validators</h1>
+          <p className="text-muted-foreground">
+            Network validators and staking metrics
           </p>
-        </CardComponent>
+        </div>
 
-        {/* Network Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <CardComponent>
-            <div className="flex flex-col justify-between h-full">
-              <Text size="2" className="text-[#292929]">
-                Total Validators
-              </Text>
-              <Text weight="bold" className="text-[#292929] text-[1.7rem]">
-                {validators.length}
-              </Text>
-            </div>
-          </CardComponent>
-          <CardComponent>
-            <div className="flex flex-col justify-between h-full">
-              <Text size="2" className="text-[#292929]">
-                Average APY
-              </Text>
-              <Text weight="bold" className="text-green-400 text-[1.7rem]">
-                {validatorsApy ? `${validatorsApy}%` : "N/A"}
-              </Text>
-            </div>
-          </CardComponent>
-          <CardComponent>
-            <div className="flex flex-col justify-between h-[100px]">
-              <Text size="2" className="text-[#292929]">
-                Total Stake
-              </Text>
-              <Text size="6" weight="bold" className="text-[#292929]">
-                {validators
-                  .reduce((sum, v) => sum + (v.stakeAmount || 0), 0)
-                  .toLocaleString(undefined, { maximumFractionDigits: 0 })}{" "}
-                SUI
-              </Text>
-            </div>
-          </CardComponent>
-          <CardComponent>
-            <div className="flex flex-col justify-between h-full">
-              <Text size="2" className="text-[#292929]">
-                Verified Validators
-              </Text>
-              <Text weight="bold" className="text-[#292929] text-[1.7rem]">
-                {validators.filter((v) => v.isVerified).length}
-              </Text>
-            </div>
-          </CardComponent>
+        {/* Metrics */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <MetricCard
+            title="Total Validators"
+            value={validators?.length || 0}
+            icon={<Users className="h-4 w-4 text-muted-foreground" />}
+            description="Active validators"
+          />
+          <MetricCard
+            title="Average APY"
+            value={validatorsApy ? `${validatorsApy}%` : "N/A"}
+            icon={<TrendingUp className="h-4 w-4 text-muted-foreground" />}
+            description="Staking rewards"
+          />
+          <MetricCard
+            title="Total Stake"
+            value={`${totalStake.toLocaleString()} SUI`}
+            icon={<Shield className="h-4 w-4 text-muted-foreground" />}
+            description="Network security"
+          />
+          <MetricCard
+            title="Verified Validators"
+            value={verifiedCount}
+            description="Verified operators"
+          />
+        </div>
+
+        {/* Charts */}
+        <div className="grid gap-4 md:grid-cols-2">
+          <ChartContainer
+            title="Top Validators by Stake"
+            description="Stake distribution among top validators"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip 
+                  formatter={(value: number) => [`${value.toLocaleString()} SUI`, "Stake"]}
+                />
+                <Bar dataKey="stake" fill="hsl(var(--primary))" />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          <ChartContainer
+            title="Stake Distribution"
+            description="Network stake distribution"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="stake"
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value: number) => [`${value.toLocaleString()} SUI`, "Stake"]} />
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartContainer>
         </div>
 
         {/* Validators Table */}
-        <CardComponent>
-          <div className="">
-            <h3 className="text-xl font-semibold text-[#292929] mb-4">
-              Top Validators ({validators.length})
-            </h3>
-          </div>
-          <Table.Root className="rounded-[10px] overflow-hidden border border-[#e8e8e8]">
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  Validator
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  Address
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  APY
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  Commission
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  Stake Amount
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  Status
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">
-                  Social
-                </Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {validators.map((validator, index) => (
-                <Table.Row key={validator.validatorAddress}>
-                  <Table.Cell>
-                    <Flex align="center" gap="3">
-                      <Avatar
-                        src={validator.validatorImg}
-                        fallback={validator.validatorName?.[0] || "V"}
-                        size="2"
-                      />
-                      <Box>
-                        <Text weight="medium" className="text-[#292929]">
-                          {validator.validatorName || "Unknown Validator"}
-                        </Text>
-                        {/* <Text size="1" className="text-[#292929]">
-                          {validator.description ? 
-                            (validator.description.length > 50 ? 
-                              `${validator.description.slice(0, 50)}...` : 
-                              validator.description
-                            ) : "No description"
-                          }
-                        </Text> */}
-                      </Box>
-                    </Flex>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="2" className="text-[#292929] font-mono">
-                      {`${validator.validatorAddress.slice(0, 8)}...${validator.validatorAddress.slice(-6)}`}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text className="text-green-400 font-medium">
-                      {validator.apy ? `${validator.apy.toFixed(2)}%` : "N/A"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text className="text-[#292929]">
-                      {validator.commissionRate
-                        ? `${validator.commissionRate}%`
-                        : "N/A"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text className="text-[#292929] font-medium">
-                      {validator.stakeAmount
-                        ? `${validator.stakeAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} SUI`
-                        : "N/A"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Badge
-                      color={validator.isVerified ? "green" : "red"}
-                      variant="soft"
-                    >
-                      {validator.isVerified ? "Verified" : "Unverified"}
-                    </Badge>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Flex gap="2">
-                      {validator.socialWebsite && (
-                        <Link href={validator.socialWebsite} target="_blank">
-                          <Badge color="blue" variant="soft" size="1">
-                            Website
-                          </Badge>
-                        </Link>
-                      )}
-                      {validator.socialTwitter && (
-                        <Link href={validator.socialTwitter} target="_blank">
-                          <Badge color="cyan" variant="soft" size="1">
-                            Twitter
-                          </Badge>
-                        </Link>
-                      )}
-                      {validator.socialTelegram && (
-                        <Link href={validator.socialTelegram} target="_blank">
-                          <Badge color="purple" variant="soft" size="1">
-                            Telegram
-                          </Badge>
-                        </Link>
-                      )}
-                    </Flex>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
-        </CardComponent>
-      </main>
-    </Layout>
+        <Card>
+          <CardHeader>
+            <CardTitle>Network Validators</CardTitle>
+            <CardDescription>
+              All active validators on the Sui network
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <DataTable 
+              columns={columns} 
+              data={validators || []} 
+              searchKey="validatorName"
+              downloadFileName="sui_validators"
+            />
+          </CardContent>
+        </Card>
+      </div>
+    </AppLayout>
   );
 }
 

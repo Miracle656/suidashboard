@@ -1,6 +1,5 @@
 import "./App.css";
 import Home from "./pages/dashboard/Home";
-// import { GenericPage } from "./components/pages/GenericPage";
 import NetworkStats from "./pages/sui/Validators";
 import TransactionVolume from "./pages/sui/TransactionVolume";
 import BlockProduction from "./pages/sui/BlockProduction";
@@ -57,125 +56,129 @@ import BatchAnalyzer from "./pages/finance/BatchAnalyzer";
 import SuiValidators from "./pages/sui/Validators";
 import ChainInfo from "./pages/sui/ChainInfo";
 import Accounts from "./pages/sui/accounts";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Main overview page */}
-        <Route path="/" element={<Home />} />
+    <div className="min-h-screen bg-background">
+      <Router>
+        <Routes>
+          {/* Main overview page */}
+          <Route path="/" element={<Home />} />
 
-        {/* Sui routes */}
-        <Route path="/sui" element={<NetworkStats />} />
-        <Route path="/sui/validators" element={<SuiValidators />} />
-        <Route path="/sui/transaction-volume" element={<TransactionVolume />} />
-        <Route path="/sui/chain-info" element={<ChainInfo />} />
-        <Route path="/sui/accounts" element={<Accounts />} />
-        <Route path="/sui/block-production" element={<BlockProduction />} />
+          {/* Sui routes */}
+          <Route path="/sui" element={<NetworkStats />} />
+          <Route path="/sui/validators" element={<SuiValidators />} />
+          <Route path="/sui/transaction-volume" element={<TransactionVolume />} />
+          <Route path="/sui/chain-info" element={<ChainInfo />} />
+          <Route path="/sui/accounts" element={<Accounts />} />
+          <Route path="/sui/block-production" element={<BlockProduction />} />
 
-        {/* Walrus routes */}
-        <Route path="/walrus" element={<WalrusAccounts />} />
-        <Route path="/walrus/accounts" element={<WalrusAccounts />} />
-        <Route path="/walrus/blobs" element={<WalrusBlobs />} />
-        <Route path="/walrus/blob-activity" element={<WalrusBlobActivity />} />
-        <Route path="/walrus/storage" element={<WalrusStorage />} />
-        <Route path="/walrus/metadata" element={<WalrusMetadata />} />
+          {/* Walrus routes */}
+          <Route path="/walrus" element={<WalrusAccounts />} />
+          <Route path="/walrus/accounts" element={<WalrusAccounts />} />
+          <Route path="/walrus/blobs" element={<WalrusBlobs />} />
+          <Route path="/walrus/blob-activity" element={<WalrusBlobActivity />} />
+          <Route path="/walrus/storage" element={<WalrusStorage />} />
+          <Route path="/walrus/metadata" element={<WalrusMetadata />} />
 
-        {/* Ika routes */}
-        <Route path="/ika" element={<IkaProtocolStats />} />
-        <Route path="/ika/protocol-stats" element={<IkaProtocolStats />} />
-        <Route path="/ika/liquidity-pools" element={<IkaLiquidityPools />} />
-        <Route path="/ika/trading-volume" element={<IkaTradingVolume />} />
-        <Route path="/ika/fee-generation" element={<IkaFeeGeneration />} />
-        <Route path="/ika/user-activity" element={<IkaUserActivity />} />
+          {/* Ika routes */}
+          <Route path="/ika" element={<IkaProtocolStats />} />
+          <Route path="/ika/protocol-stats" element={<IkaProtocolStats />} />
+          <Route path="/ika/liquidity-pools" element={<IkaLiquidityPools />} />
+          <Route path="/ika/trading-volume" element={<IkaTradingVolume />} />
+          <Route path="/ika/fee-generation" element={<IkaFeeGeneration />} />
+          <Route path="/ika/user-activity" element={<IkaUserActivity />} />
 
-        {/* DeepBook routes */}
-        <Route path="/deepbook" element={<DeepPools />} />
-        <Route path="/deepbook/pools" element={<DeepPools />} />
-        <Route
-          path="/deepbook/market-summary"
-          element={<DeepbookMarketDepth />}
-        />
-        <Route
-          path="/deepbook/historical-volume"
-          element={<DeepbookTradeHistory />}
-        />
-        <Route path="/deepbook/order-book" element={<DeepbookOrderBook />} />
-        <Route path="/deepbook/assets" element={<DeepbookLiquidity />} />
+          {/* DeepBook routes */}
+          <Route path="/deepbook" element={<DeepPools />} />
+          <Route path="/deepbook/pools" element={<DeepPools />} />
+          <Route
+            path="/deepbook/market-summary"
+            element={<DeepbookMarketDepth />}
+          />
+          <Route
+            path="/deepbook/historical-volume"
+            element={<DeepbookTradeHistory />}
+          />
+          <Route path="/deepbook/order-book" element={<DeepbookOrderBook />} />
+          <Route path="/deepbook/assets" element={<DeepbookLiquidity />} />
 
-        {/* SuiNS routes */}
-        <Route path="/suins" element={<SuinsNameResolution />} />
-        <Route
-          path="/suins/name-resolution"
-          element={<SuinsNameResolution />}
-        />
-        <Route
-          path="/suins/address-resolution"
-          element={<SuinsAddressResolution />}
-        />
-        <Route path="/suins/owned-names" element={<SuinsOwnedNames />} />
-        <Route path="/suins/pricing" element={<SuinsPricing />} />
-        <Route path="/suins/renewals" element={<SuinsRenewals />} />
+          {/* SuiNS routes */}
+          <Route path="/suins" element={<SuinsNameResolution />} />
+          <Route
+            path="/suins/name-resolution"
+            element={<SuinsNameResolution />}
+          />
+          <Route
+            path="/suins/address-resolution"
+            element={<SuinsAddressResolution />}
+          />
+          <Route path="/suins/owned-names" element={<SuinsOwnedNames />} />
+          <Route path="/suins/pricing" element={<SuinsPricing />} />
+          <Route path="/suins/renewals" element={<SuinsRenewals />} />
 
-        {/* Coins routes */}
-        <Route path="/coins" element={<CoinsAccountCoins />} />
-        <Route path="/coins/account-coins" element={<CoinsAccountCoins />} />
-        <Route path="/coins/coin-details" element={<CoinsCoinDetails />} />
-        <Route
-          path="/coins/coin-details/:coinType"
-          element={<CoinsCoinDetails />}
-        />
-        <Route path="/coins/prices" element={<CoinsPrices />} />
-        <Route path="/coins/holders" element={<CoinsHolders />} />
-        <Route path="/coins/market-data" element={<CoinsMarketData />} />
+          {/* Coins routes */}
+          <Route path="/coins" element={<CoinsAccountCoins />} />
+          <Route path="/coins/account-coins" element={<CoinsAccountCoins />} />
+          <Route path="/coins/coin-details" element={<CoinsCoinDetails />} />
+          <Route
+            path="/coins/coin-details/:coinType"
+            element={<CoinsCoinDetails />}
+          />
+          <Route path="/coins/prices" element={<CoinsPrices />} />
+          <Route path="/coins/holders" element={<CoinsHolders />} />
+          <Route path="/coins/market-data" element={<CoinsMarketData />} />
 
-        {/* NFTs routes */}
-        <Route path="/nfts" element={<NFTsCollectionList />} />
-        <Route path="/nfts/collection-list" element={<NFTsCollectionList />} />
-        <Route path="/nfts/activity" element={<NFTsActivity />} />
-        <Route path="/nfts/account-nfts" element={<NFTsAccountNFTs />} />
-        <Route
-          path="/nfts/collection-holders"
-          element={<NFTsCollectionHolders />}
-        />
-        <Route path="/nfts/transfers-sales" element={<NFTsTransfersSales />} />
+          {/* NFTs routes */}
+          <Route path="/nfts" element={<NFTsCollectionList />} />
+          <Route path="/nfts/collection-list" element={<NFTsCollectionList />} />
+          <Route path="/nfts/activity" element={<NFTsActivity />} />
+          <Route path="/nfts/account-nfts" element={<NFTsAccountNFTs />} />
+          <Route
+            path="/nfts/collection-holders"
+            element={<NFTsCollectionHolders />}
+          />
+          <Route path="/nfts/transfers-sales" element={<NFTsTransfersSales />} />
 
-        {/* Stablecoins routes */}
-        <Route path="/stablecoins" element={<StableSupply />} />
-        <Route path="/stablecoins/supply" element={<StableSupply />} />
-        <Route path="/stablecoins/mint-burn" element={<StableMintBurn />} />
-        <Route path="/stablecoins/backing" element={<StableBacking />} />
-        <Route path="/stablecoins/stability" element={<StableStability />} />
-        <Route path="/stablecoins/usage" element={<StableUsage />} />
+          {/* Stablecoins routes */}
+          <Route path="/stablecoins" element={<StableSupply />} />
+          <Route path="/stablecoins/supply" element={<StableSupply />} />
+          <Route path="/stablecoins/mint-burn" element={<StableMintBurn />} />
+          <Route path="/stablecoins/backing" element={<StableBacking />} />
+          <Route path="/stablecoins/stability" element={<StableStability />} />
+          <Route path="/stablecoins/usage" element={<StableUsage />} />
 
-        {/* RWA routes */}
-        <Route path="/rwa" element={<RwaTokenizedAssets />} />
-        <Route path="/rwa/tokenized-assets" element={<RwaTokenizedAssets />} />
-        <Route path="/rwa/real-estate" element={<RwaRealEstate />} />
-        <Route path="/rwa/commodities" element={<RwaCommodities />} />
-        <Route path="/rwa/bonds" element={<RwaBonds />} />
-        <Route path="/rwa/private-credit" element={<RwaPrivateCredit />} />
+          {/* RWA routes */}
+          <Route path="/rwa" element={<RwaTokenizedAssets />} />
+          <Route path="/rwa/tokenized-assets" element={<RwaTokenizedAssets />} />
+          <Route path="/rwa/real-estate" element={<RwaRealEstate />} />
+          <Route path="/rwa/commodities" element={<RwaCommodities />} />
+          <Route path="/rwa/bonds" element={<RwaBonds />} />
+          <Route path="/rwa/private-credit" element={<RwaPrivateCredit />} />
 
-        {/* Security & Metadata routes */}
-        <Route path="/security" element={<SecSuiMetadata />} />
-        <Route path="/security/sui-metadata" element={<SecSuiMetadata />} />
-        <Route path="/security/alerts" element={<SecAlerts />} />
-        <Route path="/security/api-checks" element={<SecApiChecks />} />
-        <Route path="/security/latest-blocks" element={<SecLatestBlocks />} />
-        <Route path="/security/validators" element={<SecValidators />} />
+          {/* Security & Metadata routes */}
+          <Route path="/security" element={<SecSuiMetadata />} />
+          <Route path="/security/sui-metadata" element={<SecSuiMetadata />} />
+          <Route path="/security/alerts" element={<SecAlerts />} />
+          <Route path="/security/api-checks" element={<SecApiChecks />} />
+          <Route path="/security/latest-blocks" element={<SecLatestBlocks />} />
+          <Route path="/security/validators" element={<SecValidators />} />
 
-        {/* Finance routes */}
-        <Route path="/finance" element={<FinanceOverview />} />
-        <Route path="/finance/overview" element={<FinanceOverview />} />
-        <Route
-          path="/finance/transaction-analyzer"
-          element={<TransactionAnalyzer />}
-        />
-        <Route path="/finance/batch-analyzer" element={<BatchAnalyzer />} />
+          {/* Finance routes */}
+          <Route path="/finance" element={<FinanceOverview />} />
+          <Route path="/finance/overview" element={<FinanceOverview />} />
+          <Route
+            path="/finance/transaction-analyzer"
+            element={<TransactionAnalyzer />}
+          />
+          <Route path="/finance/batch-analyzer" element={<BatchAnalyzer />} />
 
-        <Route path="/chatbot" element={<SuiBot />} />
-      </Routes>
-    </Router>
+          <Route path="/chatbot" element={<SuiBot />} />
+        </Routes>
+        <Toaster />
+      </Router>
+    </div>
   );
 }
 
