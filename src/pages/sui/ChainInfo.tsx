@@ -1,7 +1,7 @@
 import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useChainInfo } from "../../hooks/useSui/useSuiChainInfo";
 import { Text, Spinner, Table } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 // Helper function to format values for display
 const formatValue = (value: any): string => {

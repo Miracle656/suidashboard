@@ -8,7 +8,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 import { Spinner } from "../../components/ui/Spinner";
 
 // Types for API responses
