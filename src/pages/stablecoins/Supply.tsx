@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useStablecoinData } from "../../hooks/useStablecoins/useStable";
 import { Table, Heading, Text, Flex, Button, Badge } from "@radix-ui/themes";
 import Spinner from "@/components/ui/Spinner";

@@ -1,6 +1,6 @@
 // @ts-ignore
 import React from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 // @ts-ignore
 import { Flex, Text, Spinner } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
