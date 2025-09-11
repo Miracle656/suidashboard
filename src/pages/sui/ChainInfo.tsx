@@ -1,4 +1,4 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useChainInfo } from "../../hooks/useSui/useSuiChainInfo";
 import { Text, Spinner, Table } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";

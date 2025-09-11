@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useCoinMeta } from "../../hooks/useCoins/useCoinMeta";
 import {
   Flex,

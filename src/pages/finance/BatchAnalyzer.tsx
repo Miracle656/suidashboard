@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import {
   Card,
   Text,
