@@ -1,4 +1,4 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Loader2, AlertCircle } from "lucide-react";
 
