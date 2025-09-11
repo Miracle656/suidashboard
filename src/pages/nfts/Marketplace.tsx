@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useMarketPlace } from "../../hooks/useNFTs/useMarketPlace";
 import { Table, Text, Avatar, Flex, Box } from "@radix-ui/themes";
 import { Spinner } from "../../components/ui/Spinner";

@@ -1,5 +1,5 @@
-import CardComponent from "@/components/cards";
-import { Layout } from "../../components/layout/";
+import { Card as CardComponent } from "@/components/ui/card";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useSuiAccounts } from "../../hooks/useSui/useSuiAccounts";
 import {
   Table,
