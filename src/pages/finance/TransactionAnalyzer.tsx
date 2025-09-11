@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import {
   Text,
   Button,
@@ -9,7 +9,7 @@ import {
   Badge,
   Flex,
 } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 import {
   MagnifyingGlassIcon,
   CopyIcon,

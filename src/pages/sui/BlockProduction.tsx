@@ -1,7 +1,7 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useSuiBlocks } from "../../hooks/useSui/useSuiBlocks";
 import { Table, Text, Spinner, Badge } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 function BlockProduction() {
   const { checkpoint, transactionBlock, loading, error } = useSuiBlocks();

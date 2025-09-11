@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { WalletStatus } from "../../WalletStatus";
 import { AssetsTable } from "../../components/tables/AssetsTable";
 import { usePoolsData } from "../../hooks/useDeep/usePoolsData";

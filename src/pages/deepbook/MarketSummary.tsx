@@ -1,8 +1,8 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useMarketData } from "../../hooks/useDeep/useMarketData";
 import { Table, Text, Button, Flex } from "@radix-ui/themes";
 import { Spinner } from "../../components/ui/Spinner";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import { Download, Loader2 } from "lucide-react";
 // @ts-ignore

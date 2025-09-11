@@ -1,7 +1,7 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useCollections } from "../../hooks/useNFTs/useCollections";
 import { Table, Text, Avatar, Flex, Box, Spinner } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 function CollectionList() {
   const { collections, topCollections, loading } = useCollections();

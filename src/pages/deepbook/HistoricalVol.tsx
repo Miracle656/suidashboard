@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useHistoricalVolume } from "../../hooks/useDeep/useHisVol";
 import { Table, Text, Button, Flex, TextField } from "@radix-ui/themes";
 import { Download } from "lucide-react";
 import { HistoricalVolumeCharts } from "../../components/charts/dbcharts/HisVolChart";
 import { HistoricalVolumeStats } from "../../components/cards/DbhvStatsCard";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 import { exportElementAsImage } from "@/utils/exportImage";
 import Spinner from "@/components/ui/Spinner";
 

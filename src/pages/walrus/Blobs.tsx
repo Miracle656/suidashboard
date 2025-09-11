@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import {
   Table,
   Button,
@@ -8,7 +8,7 @@ import {
   IconButton,
   Spinner,
 } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import { Copy, Check, Download } from "lucide-react";
 import { Skeleton } from "../../components/ui/Skeleton";

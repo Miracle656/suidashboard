@@ -1,5 +1,5 @@
 import React from "react";
-import { AppLayout } from "../../components/layout/AppLayout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useCoinTrend } from "../../hooks/useCoins/useCoinTrend";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -203,7 +203,7 @@ function Prices() {
   }
 
   return (
-    <AppLayout>
+    <Layout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -351,7 +351,7 @@ function Prices() {
           </>
         )}
       </div>
-    </AppLayout>
+    </Layout>
   );
 }
 

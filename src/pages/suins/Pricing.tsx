@@ -1,7 +1,7 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useSuins } from "../../hooks/useSuins/useSuins";
 import { SuinsPricingTable } from "../../components/tables/SuinsPricingTable";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 function Pricing() {
   const { priceList } = useSuins();

@@ -1,9 +1,9 @@
 import React, { useMemo, useRef, useState } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useOrderBook } from "../../hooks/useDeep/useOrderBook";
 // @ts-ignore
 import { Table, Text, Flex, Select, Button } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import { Loader2 } from "lucide-react";
 // @ts-ignore

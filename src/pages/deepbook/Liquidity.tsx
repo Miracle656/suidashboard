@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useDeepAssets } from "../../hooks/useDeep/useDeepAssets";
 // @ts-ignore
 import { Flex, Text, Table, Button, IconButton } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import { Loader2, Download, Copy, Check } from "lucide-react";
 // @ts-ignore

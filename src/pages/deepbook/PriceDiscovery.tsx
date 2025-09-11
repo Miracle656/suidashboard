@@ -1,10 +1,10 @@
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { WalletStatus } from "../../WalletStatus";
 import { ChartsSection } from "../../components/charts/ChartsSection";
 import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 function PriceDiscovery() {
   const { dbdata } = usePoolsData();

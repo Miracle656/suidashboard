@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Layout } from "../../components/layout/Layout";
+import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import {
   TrendingUp,
   TrendingDown,
@@ -8,7 +8,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 interface SimplePriceData {
   [key: string]: {
