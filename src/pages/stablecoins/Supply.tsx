@@ -3,7 +3,7 @@ import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useStablecoinData } from "../../hooks/useStablecoins/useStable";
 import { Table, Heading, Text, Flex, Button, Badge } from "@radix-ui/themes";
 import Spinner from "@/components/ui/Spinner";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import {
   Skeleton,
