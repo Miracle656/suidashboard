@@ -3,7 +3,7 @@ import React from "react";
 import { AppLayout as Layout } from "../../components/layout/AppLayout";
 // @ts-ignore
 import { Flex, Text, Spinner } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import {
   Skeleton,

@@ -3,7 +3,7 @@ import { AppLayout as Layout } from "../../components/layout/AppLayout";
 import { useMarketPlace } from "../../hooks/useNFTs/useMarketPlace";
 import { Table, Text, Avatar, Flex, Box } from "@radix-ui/themes";
 import { Spinner } from "../../components/ui/Spinner";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 
 function TransfersSales() {
   const { marketplace, topMarketplace, loading } = useMarketPlace();

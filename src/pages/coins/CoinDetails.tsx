@@ -13,7 +13,7 @@ import {
   TextField,
   Button,
 } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 import {
   ExternalLink,
   Github,
