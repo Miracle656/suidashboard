@@ -10,7 +10,7 @@ import {
   Spinner,
   Badge,
 } from "@radix-ui/themes";
-import CardComponent from "@/components/cards";
+import { Card as CardComponent } from "@/components/ui/card";
 // @ts-ignore
 import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 
